@@ -1,6 +1,6 @@
 agent {
         kubernetes {
           label 'nodejs-app-pod'
-          yamlFile 'nodejs-pod.yam2'
+          yamlFile 'nodejs-pod.yaml'
         }
       }

@@ -1,28 +1,17 @@
-pipeline {
-  agent none
-  options { 
-    buildDiscarder(logRotator(numToKeepStr: '2'))
-    skipDefaultCheckout true
-  }
-  stages {
-    stage('Test') {
-      agent { label 'nodejs-app' }
-      steps {
-        checkout scm
-        container('nodejs') {
-          echo 'Hello World!'   
-          sh 'node --version'
-        }
-      }
-    }
-    stage('Build and Push Image') {
-      when {
-         beforeAgent true
-         branch 'master'
-      }
-      steps {
-         echo "TODO - build and push image"
-      }
-    }
-  }
-}
+kind: Pod
+metadata:
+  name: nodejs-app
+spec:
+  containers:
+  - name: nodejs
+    image: node:10.10.1-alpine
+    command:
+    - cat
+    tty: true
+  - name: testcafe
+    image: gcr.io/technologists/testcafe:0.0.2
+    command:
+    - cat
+    tty: true
+  securityContext:
+    runAsUser: 1000
